@@ -1,0 +1,66 @@
+@import url("http://fonts.cdnfonts.com/css/pokemon-solid");
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Pokemon Solid", sans-serif;
+  -webkit-text-stroke: 2px rgb(28, 17, 153);
+  color: rgb(232, 215, 87);
+  letter-spacing: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: skyblue;
+}
+
+.header {
+  font-size: 4em;
+  user-select: none;
+}
+.timer {
+  font-size: 1em;
+  margin-bottom: 1em;
+  user-select: none;
+}
+
+section {
+  display: grid;
+  grid-template-columns: repeat(5, 8em);
+  grid-template-rows: repeat(2, 10em);
+  grid-gap: 5px;
+  padding: 5px;
+  background-color: rgb(255, 244, 161);
+  border-radius: 10px;
+  box-shadow: 3px 3px 5px navy;
+  perspective: 800px;
+}
+
+.card {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: all 1s ease;
+  /* cursor: pointer; */
+}
+
+.face,
+.back {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  pointer-events: none;
+}
+
+.back {
+  background-color: skyblue;
+  border: 5px solid rgb(71, 71, 252);
+  border-radius: 5px;
+  cursor: pointer;
+  backface-visibility: hidden;
+}
+
+.toggleCard {
+  transform: rotateY(180deg);
+}
