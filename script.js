@@ -23,6 +23,18 @@ const randomize = () => {
 
 randomize();
 
+let generateEventListener;
+
+(generateEventListener = () => {
+  section.addEventListener(
+    "click",
+    () => {
+      timer();
+    },
+    { once: true }
+  );
+})();
+
 const cardGenerator = () => {
   const cardData = randomize();
 
@@ -71,16 +83,20 @@ const matchChecker = (e) => {
     }
   }
   if (toggleCard.length === 10) {
-    stopTimer();
+    clearInterval(interval);
     setTimeout(() => restart(), 5000);
-    setTimeout(() => resetTimer(), 5000);
   }
 };
 
 const restart = () => {
+  secs = 0;
+  timeCounter.innerHTML = "00:00";
+  generateEventListener();
+
   let cardData = randomize();
   let faces = document.querySelectorAll(".face");
   let cards = document.querySelectorAll(".card");
+
   section.style.pointerEvents = "none";
   cardData.forEach((item, index) => {
     cards[index].classList.remove("toggleCard");
@@ -98,40 +114,27 @@ cardGenerator();
 
 // Timer
 
-let seconds = 0;
-let interval = null;
+let secs = 0;
+let mins = 0;
+let interval;
 
 const timeCounter = document.querySelector(".time");
 
 const timer = () => {
-  let secs = seconds % 60;
-  let mins = Math.floor(seconds / 60);
+  interval = setInterval(() => {
+    secs++;
 
-  if (secs < 10) {
-    secs = `0${secs}`;
-  }
-  if (mins < 10) {
-    mins = `0${mins}`;
-  }
-  timeCounter.innerHTML = `${mins}:${secs}`;
-  seconds++;
+    if (secs < 10) {
+      secs = `0${secs}`;
+    } else if (secs > 59) {
+      secs = 0;
+      mins++;
+
+      if (mins < 10) {
+        mins = `0${mins}`;
+      }
+    }
+
+    timeCounter.innerHTML = `0${mins}:${secs}`;
+  }, 1000);
 };
-
-const startTimer = () => {
-  if (interval) {
-    return;
-  }
-  interval = setInterval(timer, 1000);
-};
-
-const stopTimer = () => {
-  clearInterval(interval);
-};
-
-const resetTimer = () => {
-  stopTimer();
-  seconds = 0;
-  timeCounter.innerHTML = "00:00";
-};
-
-section.addEventListener("click", startTimer);
